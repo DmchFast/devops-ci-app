@@ -65,7 +65,6 @@
     dest: /etc/sudoers.d/90-devops-nopasswd
     content: |
       devops ALL=(ALL) NOPASSWD: ALL
-      Defaults:devops !requiretty
     owner: root
     group: root
     mode: '0440'
