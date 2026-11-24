@@ -22,6 +22,7 @@
     cache_valid_time: 3600
 
 - name: Add Docker official repository
+  tags: [docker-repo]
   ansible.builtin.deb822_repository:
     name: docker
     types: [deb]
@@ -33,6 +34,7 @@
     state: present
 
 - name: Install Docker Engine
+  tags: [docker-repo]
   ansible.builtin.apt:
     name:
       - docker-ce
