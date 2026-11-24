@@ -21,6 +21,17 @@
     update_cache: true
     cache_valid_time: 3600
 
+- name: Remove conflicting Docker repository files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/sources.list.d/docker.list
+    - /etc/apt/sources.list.d/docker.sources
+    - /etc/apt/keyrings/docker.gpg
+    - /etc/apt/keyrings/docker.asc
+  become: true
+
 - name: Add Docker official repository
   ansible.builtin.deb822_repository:
     name: docker
@@ -48,3 +59,15 @@
     name: docker
     state: started
     enabled: true
+
+- name: Allow passwordless sudo for devops user
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/90-devops-nopasswd
+    content: |
+      devops ALL=(ALL) NOPASSWD: ALL
+      Defaults:devops !requiretty
+    owner: root
+    group: root
+    mode: '0440'
+    validate: '/usr/sbin/visudo -cf %s'
+  become: true
