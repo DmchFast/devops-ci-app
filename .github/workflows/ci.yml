@@ -150,7 +150,7 @@ jobs:
       - name: Deploy with Ansible
         working-directory: ansible
         run: |
-          ansible-playbook site.yml -e "app_tag=${{ github.sha }}"
+          ansible-playbook site.yml -e "app_tag=${{ github.sha }}" --skip-tags docker-repo
 
       - name: Check through Nginx
         run: |
